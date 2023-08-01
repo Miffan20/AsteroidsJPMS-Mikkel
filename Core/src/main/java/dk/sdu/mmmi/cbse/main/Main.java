@@ -8,11 +8,20 @@ public class Main {
 	
 	public static void main(String[] args) {
 
+
+		//adding the Annottationconfig from spring, to control the game.
+		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(ModuleConfig.class);
+
+		for (String beanName : ctx.getBeanDefinitionNames()) {
+			System.out.println(beanName);
+		}
+
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("Asteroids");
 		config.setWindowSizeLimits(650,550,650,550);
 
-		new Lwjgl3Application(new Game(), config);
+		//using the annotationconfig ctx to start the new game
+		new Lwjgl3Application(ctx.getBean(Game.class), config);
 	}
 	
 }
