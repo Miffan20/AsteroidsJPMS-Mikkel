@@ -17,6 +17,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ServiceLoader;
 import static java.util.stream.Collectors.toList;
+//importing the spring framework to the core game
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Game
         implements ApplicationListener {
