@@ -17,7 +17,7 @@ public class Main {
 		}
 
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setTitle("Asteroids");
+		config.setTitle("Asteroids-Mikkel-Exam");
 		config.setWindowSizeLimits(650,550,650,550);
 
 		//using the annotationconfig ctx to start the new game
