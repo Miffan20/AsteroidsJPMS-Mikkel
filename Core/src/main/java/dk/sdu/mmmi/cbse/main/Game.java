@@ -29,9 +29,23 @@ public class Game
     private ShapeRenderer sr;
 
     private final GameData gameData = new GameData();
-    private List<IEntityProcessingService> entityProcessors = new ArrayList<>();
-    private List<IPostEntityProcessingService> postEntityProcessors = new ArrayList<>();
+
+
+//adding variables for gamePluginServices, entityProcessors and postEntityProcessors
+    private final List<IGamePluginService> gamePluginServices;
+    private final List<IEntityProcessingService> entityProcessors;
+    private final List<IPostEntityProcessingService> postEntityProcessors;
+
+
     private World world = new World();
+
+
+    //new constructor for class, in charge of initializing the gamePluginServices, and the two processors.
+    public Game(List<IGamePluginService> gamePluginServices, List<IEntityProcessingService> entityProcessors, List<IPostEntityProcessingService> postEntityProcessors) {
+        this.gamePluginServices = gamePluginServices;
+        this.entityProcessors = entityProcessors;
+        this.postEntityProcessors = postEntityProcessors;
+    }
 
     @Override
     public void create() {
@@ -49,8 +63,8 @@ public class Game
                 new GameInputProcessor(gameData)
         );
 
-        // Lookup all Game Plugins using ServiceLoader
-        for (IGamePluginService iGamePlugin : getPluginServices()) {
+        // Lookup all Game Plugins using ServiceLoader - using the gamePlugin Services List
+        for (IGamePluginService iGamePlugin : gamePluginServices) {
             iGamePlugin.start(gameData, world);
         }
     }
@@ -72,11 +86,12 @@ public class Game
     }
 
     private void update() {
-        // Update
-        for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
+        // Update using the entityProcessors List
+        for (IEntityProcessingService entityProcessorService : entityProcessors) {
             entityProcessorService.process(gameData, world);
         }
-         for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
+        //getting the postEntityProcessors
+         for (IPostEntityProcessingService postEntityProcessorService : postEntityProcessors) {
             postEntityProcessorService.process(gameData, world);
         }
     }
@@ -118,6 +133,8 @@ public class Game
     public void dispose() {
     }
 
+    /*
+    -- These functions are no longer required, but rather handled by Spring
     private Collection<? extends IGamePluginService> getPluginServices() {
         return ServiceLoader.load(IGamePluginService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
@@ -125,8 +142,10 @@ public class Game
     private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {
         return ServiceLoader.load(IEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
-    
+
        private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
         return ServiceLoader.load(IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
+
+     */
 }
