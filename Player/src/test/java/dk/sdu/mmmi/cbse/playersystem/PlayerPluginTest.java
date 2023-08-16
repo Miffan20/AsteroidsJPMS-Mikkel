@@ -9,7 +9,7 @@ import static org.testng.AssertJUnit.assertTrue;
 public class PlayerPluginTest {
 
     @Test
-    public void testImplementsIEntityProcessingService() {
+    public void testImplementsIPluginService() {
         Class<?> playerPluginClass = PlayerPlugin.class;
 
         assertTrue("PlayerPlugin should implement IEntityProcessingService",
